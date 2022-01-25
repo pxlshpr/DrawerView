@@ -14,10 +14,10 @@ public enum DrawerViewDragSection {
 
 public struct DrawerView<Content: View>: View {
 
-    @Binding public var drawerSection: DrawerViewDragSection
-    @Binding public var drawerProgress: Double
-    @Binding public var drawerContentHeight: Double
-    public var content: () -> Content
+    @Binding var drawerSection: DrawerViewDragSection
+    @Binding var drawerProgress: Double
+    @Binding var drawerContentHeight: Double
+    var content: () -> Content
     
     @Environment(\.scenePhase) var scenePhase
 
@@ -26,9 +26,12 @@ public struct DrawerView<Content: View>: View {
     @GestureState var gestureOffset: CGFloat = 0
     @State var lastDragValue: DragGesture.Value? = nil
     
-//    init(@ViewBuilder content: @escaping () -> Content) {
-//        self.content = content
-//    }
+    public init(drawerSection: Binding<DrawerViewDragSection>, drawerProgress: Binding<Double>, drawerContentHeight: Binding<Double>, @ViewBuilder content: @escaping () -> Content) {
+        self._drawerSection = drawerSection
+        self._drawerProgress = drawerProgress
+        self._drawerContentHeight = drawerContentHeight
+        self.content = content
+    }
     
     public var body: some View {
         GeometryReader { proxy -> AnyView in
