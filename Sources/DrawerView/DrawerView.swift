@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftHaptics
+import SwiftUISugar
 
 let CollapsedHeight = 98.0
 let RegularHeight = 176.0
@@ -96,15 +97,5 @@ public struct DrawerView<Content: View>: View {
         let progress = -offset / (UIScreen.main.bounds.height - 100)
 //        log.verbose("progress: \(progress) for offset: \(offset)")
         return progress * 20
-    }
-}
-
-struct CustomCorner: Shape {
-    var corners: UIRectCorner
-    var radius: CGFloat
-    
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        return Path(path.cgPath)
     }
 }
