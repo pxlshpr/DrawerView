@@ -7,7 +7,7 @@ let RegularHeight = 176.0
 let RegularOffset = CollapsedHeight - RegularHeight
 let CollapsedOffset = CollapsedHeight - CollapsedHeight
 
-enum DrawerViewDragSection {
+public enum DrawerViewDragSection {
     case collapsedRegular
     case regularExpanded
 }
