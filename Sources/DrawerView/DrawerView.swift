@@ -14,18 +14,17 @@ public enum DrawerViewDragSection {
 
 public struct DrawerView<Content: View>: View {
 
+    @Binding public var drawerSection: DrawerViewDragSection
+    @Binding public var drawerProgress: Double
+    @Binding public var drawerContentHeight: Double
+    public var content: () -> Content
+    
     @Environment(\.scenePhase) var scenePhase
 
     @State var offset: CGFloat = 0
     @State var lastOffset: CGFloat = 0
     @GestureState var gestureOffset: CGFloat = 0
     @State var lastDragValue: DragGesture.Value? = nil
-    
-    @Binding var drawerSection: DrawerViewDragSection
-    @Binding var drawerProgress: Double
-    @Binding var drawerContentHeight: Double
-
-    var content: () -> Content
     
 //    init(@ViewBuilder content: @escaping () -> Content) {
 //        self.content = content
