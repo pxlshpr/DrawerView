@@ -34,17 +34,32 @@ extension DrawerView {
         withAnimation(.interactiveSpring()) {
             if offset > RegularOffset {
 //                log.verbose("\(offset) > \(RegularOffset), setting to Collapsed")
-                offset = CollapsedOffset
+//                offset = CollapsedOffset
+                changeState(to: .collapsed)
             } else if offset > (-maxHeight/2.0) {
 //                log.verbose("\(offset) > \(-maxHeight/2.0), setting to Regular")
-                offset = RegularOffset
+//                offset = RegularOffset
+                changeState(to: .regular)
             } else {
 //                log.verbose("Setting to maxHeight")
-                offset = -maxHeight
+//                offset = -maxHeight
+                changeState(to: .expanded, maxHeight: maxHeight)
             }
             updateProgress(height: height)
             lastOffset = offset
         }
+    }
+    
+    func changeState(to state: DrawerViewState, maxHeight: CGFloat = 0) {
+        switch state {
+        case .collapsed:
+            offset = CollapsedOffset
+        case .regular:
+            offset = RegularOffset
+        case .expanded:
+            offset = -maxHeight
+        }
+        onStateChange(state)
     }
     
     func updateProgress(height: CGFloat) {
@@ -96,7 +111,7 @@ extension DrawerView {
             Haptics.feedback(style: .soft)
             if abs(speed) > 150 {
                 let stateChange: String
-                if isDownwards {
+                if isDownwards {¡
                     stateChange = "Downwards"
                 } else {
                     stateChange = "Upwards"
@@ -106,20 +121,24 @@ extension DrawerView {
                 let gestureEndedBelowCollapsedHeight = value.location.y > maxHeight
                 if isDownwards {
                     if gestureEndedBelowCollapsedHeight || lastOffset == RegularOffset {
-                        offset = CollapsedOffset
+//                        offset = CollapsedOffset
+                        changeState(to: .collapsed)
                         updateProgress(height: height)
                     } else {
-                        offset = RegularOffset
+//                        offset = RegularOffset
+                        changeState(to: .regular)
                         updateProgress(height: height)
                     }
                 } else {
                     if !gestureEndedBelowCollapsedHeight &&
                         (value.location.y < UIScreen.main.bounds.height*2.0/3.0 || lastOffset == RegularOffset)
                     {
-                        offset = -maxHeight
+                        changeState(to: .expanded, maxHeight: maxHeight)
+//                        offset = -maxHeight
                         updateProgress(height: height)
                     } else {
-                        offset = RegularOffset
+//                        offset = RegularOffset
+                        changeState(to: .regular)
                         updateProgress(height: height)
                     }
                 }
@@ -135,15 +154,18 @@ extension DrawerView {
                     updateProgress(height: height)
                 }
                 else if drawerTopIsAboveTwoThirdsOfMaxHeight {
-                    offset = -maxHeight
+                    changeState(to: .expanded, maxHeight: maxHeight)
+//                    offset = -maxHeight
                     updateProgress(height: height)
                 }
                 else if drawerTopIsAboveHalfwayBetweenCollapsedAndRegular {
-                    offset = RegularOffset
+//                    offset = RegularOffset
+                    changeState(to: .regular)
                     updateProgress(height: height)
                 }
                 else {
-                    offset = CollapsedOffset
+//                    offset = CollapsedOffset
+                    changeState(to: .collapsed)
                     updateProgress(height: height)
                 }
             }

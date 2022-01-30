@@ -13,6 +13,12 @@ public enum DrawerViewDragSection {
     case regularExpanded
 }
 
+public enum DrawerViewState {
+    case collapsed
+    case regular
+    case expanded
+}
+
 public struct DrawerView<Content: View>: View {
 
     @Binding var drawerSection: DrawerViewDragSection
@@ -27,11 +33,14 @@ public struct DrawerView<Content: View>: View {
     @GestureState var gestureOffset: CGFloat = 0
     @State var lastDragValue: DragGesture.Value? = nil
     
-    public init(drawerSection: Binding<DrawerViewDragSection>, drawerProgress: Binding<Double>, drawerContentHeight: Binding<Double>, @ViewBuilder content: @escaping () -> Content) {
+    var onStateChange: ((DrawerViewState) -> ())
+    
+    public init(drawerSection: Binding<DrawerViewDragSection>, drawerProgress: Binding<Double>, drawerContentHeight: Binding<Double>, @ViewBuilder content: @escaping () -> Content, onStateChange: @escaping ((DrawerViewState) -> ())) {
         self._drawerSection = drawerSection
         self._drawerProgress = drawerProgress
         self._drawerContentHeight = drawerContentHeight
         self.content = content
+        self.onStateChange = onStateChange
     }
     
     public var body: some View {
