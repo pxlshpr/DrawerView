@@ -33,9 +33,9 @@ public struct DrawerView<Content: View>: View {
     @GestureState var gestureOffset: CGFloat = 0
     @State var lastDragValue: DragGesture.Value? = nil
     
-    var onStateChange: ((DrawerViewState) -> ())
+    var onStateChange: ((DrawerViewState) -> ())?
     
-    public init(drawerSection: Binding<DrawerViewDragSection>, drawerProgress: Binding<Double>, drawerContentHeight: Binding<Double>, @ViewBuilder content: @escaping () -> Content, onStateChange: @escaping ((DrawerViewState) -> ())) {
+    public init(drawerSection: Binding<DrawerViewDragSection>, drawerProgress: Binding<Double>, drawerContentHeight: Binding<Double>, @ViewBuilder content: @escaping () -> Content, onStateChange: ((DrawerViewState) -> ())? = nil) {
         self._drawerSection = drawerSection
         self._drawerProgress = drawerProgress
         self._drawerContentHeight = drawerContentHeight

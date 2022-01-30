@@ -59,7 +59,7 @@ extension DrawerView {
         case .expanded:
             offset = -maxHeight
         }
-        onStateChange(state)
+        onStateChange?(state)
     }
     
     func updateProgress(height: CGFloat) {
@@ -111,7 +111,7 @@ extension DrawerView {
             Haptics.feedback(style: .soft)
             if abs(speed) > 150 {
                 let stateChange: String
-                if isDownwards {¡
+                if isDownwards {
                     stateChange = "Downwards"
                 } else {
                     stateChange = "Upwards"
