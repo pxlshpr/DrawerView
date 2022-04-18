@@ -23,6 +23,7 @@ public struct DrawerView<Content: View>: View {
 
     @Binding var drawerSection: DrawerViewDragSection
     @Binding var drawerProgress: Double
+    @Binding var isDragging: Bool
     @Binding var drawerContentHeight: Double
     var content: () -> Content
     
@@ -35,10 +36,11 @@ public struct DrawerView<Content: View>: View {
     
     var onStateChange: ((DrawerViewState) -> ())?
     
-    public init(drawerSection: Binding<DrawerViewDragSection>, drawerProgress: Binding<Double>, drawerContentHeight: Binding<Double>, @ViewBuilder content: @escaping () -> Content, onStateChange: ((DrawerViewState) -> ())? = nil) {
+    public init(drawerSection: Binding<DrawerViewDragSection>, drawerProgress: Binding<Double>, drawerContentHeight: Binding<Double>, isDragging: Binding<Bool>, @ViewBuilder content: @escaping () -> Content, onStateChange: ((DrawerViewState) -> ())? = nil) {
         self._drawerSection = drawerSection
         self._drawerProgress = drawerProgress
         self._drawerContentHeight = drawerContentHeight
+        self._isDragging = isDragging
         self.content = content
         self.onStateChange = onStateChange
     }
