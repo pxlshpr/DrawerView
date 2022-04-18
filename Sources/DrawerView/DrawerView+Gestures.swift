@@ -97,6 +97,7 @@ extension DrawerView {
     }
     
     private func onDragEnded(value: DragGesture.Value, height: CGFloat) {
+        isDragging = false
         guard let lastDragPosition = self.lastDragValue else {
             return
         }
@@ -171,7 +172,6 @@ extension DrawerView {
                 }
             }
             
-            isDragging = false
             lastOffset = offset
         }
     }
