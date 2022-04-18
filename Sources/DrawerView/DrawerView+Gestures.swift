@@ -14,8 +14,8 @@ extension DrawerView {
     
     //MARK: - Drag Events
     private func onDragChanged(value: DragGesture.Value, height: CGFloat) {
+        self.isDragging = true
         DispatchQueue.main.async {
-            self.isDragging = true
             self.offset = gestureOffset + lastOffset
             self.lastDragValue = value
             self.updateProgress(height: height)
@@ -52,6 +52,8 @@ extension DrawerView {
     }
     
     func changeState(to state: DrawerViewState, maxHeight: CGFloat = 0) {
+        isDragging = false
+        
         switch state {
         case .collapsed:
             offset = CollapsedOffset
