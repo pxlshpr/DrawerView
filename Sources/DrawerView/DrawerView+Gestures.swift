@@ -14,9 +14,9 @@ extension DrawerView {
     
     //MARK: - Drag Events
     private func onDragChanged(value: DragGesture.Value, height: CGFloat) {
-        self.isDragging = true
-        print("isDragging = true")
         DispatchQueue.main.async {
+            print("isDragging = true")
+            self.isDragging = true
             self.offset = gestureOffset + lastOffset
             self.lastDragValue = value
             self.updateProgress(height: height)
