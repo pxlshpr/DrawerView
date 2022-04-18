@@ -48,11 +48,11 @@ extension DrawerView {
             }
             updateProgress(height: height)
             lastOffset = offset
+            isDragging = false
         }
     }
     
     func changeState(to state: DrawerViewState, maxHeight: CGFloat = 0) {
-        isDragging = false
         
         switch state {
         case .collapsed:
