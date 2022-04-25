@@ -5,7 +5,10 @@ extension DrawerView {
     
     internal func dragGesture(height: CGFloat) -> some Gesture {
         DragGesture().updating($gestureOffset, body: { value, out, _ in
-            guard isEnabled else { return }
+            guard isEnabled else {
+                out = 0
+                return
+            }
             out = value.translation.height
             onDragChanged(value: value, height: height)
         }).onEnded { value in
