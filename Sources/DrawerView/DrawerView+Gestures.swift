@@ -15,7 +15,6 @@ extension DrawerView {
     //MARK: - Drag Events
     private func onDragChanged(value: DragGesture.Value, height: CGFloat) {
         DispatchQueue.main.async {
-            print("isDragging = true")
             self.isDragging = true
             self.offset = gestureOffset + lastOffset
             self.lastDragValue = value
@@ -51,7 +50,6 @@ extension DrawerView {
             lastOffset = offset
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                print("isDragging = false")
                 isDragging = false
             }
         }
@@ -106,7 +104,6 @@ extension DrawerView {
     private func onDragEnded(value: DragGesture.Value, height: CGFloat) {
         guard let lastDragPosition = self.lastDragValue else {
             isDragging = false
-            print("isDragging = false")
             return
         }
         
@@ -182,7 +179,6 @@ extension DrawerView {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 isDragging = false
-                print("isDragging = false")
             }
             lastOffset = offset
         }
