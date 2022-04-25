@@ -12,12 +12,18 @@ extension DrawerView {
             out = value.translation.height
             onDragChanged(value: value, height: height)
         }).onEnded { value in
+            /// Only complete drags that had begun (ie, vertical ones)
+            guard isDragging else { return }
             onDragEnded(value: value, height: height)
         }
     }
     
     //MARK: - Drag Events
     private func onDragChanged(value: DragGesture.Value, height: CGFloat) {
+        /// Ignore horizontal translations
+        guard abs(value.translation.width) < abs(value.translation.height) else {
+            return
+        }
         print("Translation: - \(value.translation)")
         DispatchQueue.main.async {
             self.isDragging = true
