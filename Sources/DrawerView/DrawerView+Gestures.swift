@@ -15,8 +15,7 @@ extension DrawerView {
             
             /// reset this for the next drag
             print("isIgnoringHorizontalDrag set to FALSE ❌")
-            isIgnoringHorizontalDrag = false
-            isEnabled = true
+            vm.isIgnoringHorizontalDrag = false
             
             /// Only complete drags that had begun (ie, vertical ones)
             guard isDragging else { return }
@@ -31,14 +30,14 @@ extension DrawerView {
             guard abs(value.translation.width) < abs(value.translation.height) else {
                 print("isIgnoringHorizontalDrag set to TRUE ✅")
                 isEnabled = false
-                isIgnoringHorizontalDrag = true
+                vm.isIgnoringHorizontalDrag = true
                 return
             }
         }
         
         /// ignore all continuing drags that began as horizontal, regardless of if they turn vertical halfway through
-        print("isIgnoringHorizontalDrag is \(isIgnoringHorizontalDrag)")
-        guard !isIgnoringHorizontalDrag else {
+        print("vm.isIgnoringHorizontalDrag is \(vm.isIgnoringHorizontalDrag)")
+        guard !vm.isIgnoringHorizontalDrag else {
             print("returning")
             return
         }

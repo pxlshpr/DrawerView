@@ -21,6 +21,12 @@ public enum DrawerViewState {
 
 public struct DrawerView<Content: View>: View {
 
+    class ViewModel: ObservableObject {
+        @Published var isIgnoringHorizontalDrag: Bool = false
+    }
+    
+    @StateObject var vm: ViewModel = ViewModel()
+
     @Binding var drawerSection: DrawerViewDragSection
     @Binding var drawerProgress: Double
     @Binding var isDragging: Bool
@@ -34,7 +40,6 @@ public struct DrawerView<Content: View>: View {
     @State var lastOffset: CGFloat = 0
     @GestureState var gestureOffset: CGFloat = 0
     @State var lastDragValue: DragGesture.Value? = nil
-    @State var isIgnoringHorizontalDrag: Bool = false
     
     var onStateChange: ((DrawerViewState) -> ())?
     
