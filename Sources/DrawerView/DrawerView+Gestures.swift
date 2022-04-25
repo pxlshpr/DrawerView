@@ -18,6 +18,7 @@ extension DrawerView {
     
     //MARK: - Drag Events
     private func onDragChanged(value: DragGesture.Value, height: CGFloat) {
+        print("Translation: - \(value.translation)")
         DispatchQueue.main.async {
             self.isDragging = true
             self.offset = gestureOffset + lastOffset
@@ -26,7 +27,6 @@ extension DrawerView {
 //            log.verbose("Offset: \(offset)")
         }
     }
-    
     
     func completeTransientStateChange(height: CGFloat) {
 
