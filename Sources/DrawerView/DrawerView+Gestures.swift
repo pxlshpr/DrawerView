@@ -12,6 +12,10 @@ extension DrawerView {
             out = value.translation.height
             onDragChanged(value: value, height: height)
         }).onEnded { value in
+            
+            /// reset this for the next drag
+            isIgnoringHorizontalDrag = false
+            
             /// Only complete drags that had begun (ie, vertical ones)
             guard isDragging else { return }
             onDragEnded(value: value, height: height)
@@ -20,10 +24,19 @@ extension DrawerView {
     
     //MARK: - Drag Events
     private func onDragChanged(value: DragGesture.Value, height: CGFloat) {
-        /// Ignore horizontal translations
-        guard abs(value.translation.width) < abs(value.translation.height) else {
+        /// Ignore horizontal translations, checking for them at the beginning
+        if !isDragging {
+            guard abs(value.translation.width) < abs(value.translation.height) else {
+                isIgnoringHorizontalDrag = true
+                return
+            }
+        }
+        
+        /// ignore all continuing drags that began as horizontal, regardless of if they turn vertical halfway through
+        guard !isIgnoringHorizontalDrag else {
             return
         }
+        
         print("Translation: - \(value.translation)")
         DispatchQueue.main.async {
             self.isDragging = true
