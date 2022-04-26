@@ -126,6 +126,7 @@ public struct DrawerView<Content: View>: View {
                 Haptics.feedback(style: .soft)
                 changeState(to: newValue, maxHeight: vm.height)
                 updateProgress(height: vm.height)
+                lastOffset = offset
             }
         }
     }
