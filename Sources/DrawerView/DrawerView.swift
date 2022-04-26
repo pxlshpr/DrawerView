@@ -122,8 +122,11 @@ public struct DrawerView<Content: View>: View {
         }
         .ignoresSafeArea(.all, edges: isFullScreenWhenExpanded ? .all : .bottom)
         .onChange(of: vm.manualState) { newValue in
-            changeState(to: newValue, maxHeight: vm.height)
-            updateProgress(height: vm.height)
+            withAnimation(.interactiveSpring()) {
+                Haptics.feedback(style: .soft)
+                changeState(to: newValue, maxHeight: vm.height)
+                updateProgress(height: vm.height)
+            }
         }
     }
     
