@@ -51,10 +51,10 @@ public struct DrawerView<Content: View>: View {
                 drawerProgress: Binding<Double>,
                 drawerContentHeight: Binding<Double>,
                 isDragging: Binding<Bool>,
+                isEnabled: Binding<Bool> = .constant(true),
                 isFullScreenWhenExpanded: Bool = false,
                 showHandle: Bool = true,
                 roundedCorners: Bool = true,
-                isEnabled: Binding<Bool> = .constant(true),
                 @ViewBuilder content: @escaping () -> Content,
                 onStateChange: ((DrawerViewState) -> ())? = nil) {
         self._drawerSection = drawerSection
