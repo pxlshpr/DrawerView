@@ -35,9 +35,9 @@ extension DrawerView {
         }
         
         /// ignore all continuing drags that began as horizontal, regardless of if they turn vertical halfway through
-//        guard !vm.isIgnoringHorizontalDrag else {
-//            return
-//        }
+        guard vm.isEnabled else {
+            return
+        }
         
         DispatchQueue.main.async {
             self.vm.isDragging = true
