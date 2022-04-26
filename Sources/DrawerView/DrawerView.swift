@@ -89,6 +89,27 @@ public struct DrawerView<Content: View>: View {
         self.onStateChange = onStateChange
     }
     
+    func primaryYOffset(for height: CGFloat) -> CGFloat {
+        let yOffset = height - CollapsedHeight
+        print("primaryOffset for height: \(height) → \(yOffset)")
+        return yOffset
+    }
+    
+    func secondaryYOffset(for height: CGFloat) -> CGFloat {
+        let yOffset: CGFloat
+        if -offset > 0 {
+            if -offset <= (height - CollapsedHeight) {
+                yOffset = offset
+            } else {
+                yOffset = -(height - CollapsedHeight)
+            }
+        } else {
+            yOffset = 0
+        }
+        print("secondaryOffset for height: \(height) → \(yOffset)")
+        return yOffset
+    }
+    
     public var body: some View {
         GeometryReader { proxy -> AnyView in
             
@@ -108,8 +129,8 @@ public struct DrawerView<Content: View>: View {
                     .clipped()
                     .frame(height: .infinity, alignment: .top)
                 }
-                    .offset(y: height - CollapsedHeight)
-                    .offset(y: -offset > 0 ? -offset <= (height - CollapsedHeight) ? offset : -(height - CollapsedHeight) : 0)
+                    .offset(y: primaryYOffset(for: height))
+                    .offset(y: secondaryYOffset(for: height))
                     .simultaneousGesture(dragGesture(height: height))
                     .onChange(of: scenePhase, perform: {
                         scenePhaseChanged($0, height: height)
