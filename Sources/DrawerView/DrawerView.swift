@@ -76,7 +76,7 @@ public struct DrawerView<Content: View>: View {
                     .clipped()
                     .frame(height: .infinity, alignment: .top)
                 }
-                    .offset(y: height - CollapsedHeight)
+//                    .offset(y: height - CollapsedHeight)
                     .offset(y: -offset > 0 ? -offset <= (height - CollapsedHeight) ? offset : -(height - CollapsedHeight) : 0)
                     .simultaneousGesture(dragGesture(height: height))
                     .onChange(of: scenePhase, perform: {
