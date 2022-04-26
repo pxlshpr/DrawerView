@@ -14,7 +14,7 @@ extension DrawerView {
         }).onEnded { value in
             
             /// reset these for the next drag
-            vm.isIgnoringHorizontalDrag = false
+//            vm.isIgnoringHorizontalDrag = false
             vm.isEnabled = true
             
             /// Only complete drags that had begun (ie, vertical ones)
@@ -29,15 +29,15 @@ extension DrawerView {
         if !vm.isDragging {
             guard abs(value.translation.width) < abs(value.translation.height) else {
                 vm.isEnabled = false
-                vm.isIgnoringHorizontalDrag = true
+//                vm.isIgnoringHorizontalDrag = true
                 return
             }
         }
         
         /// ignore all continuing drags that began as horizontal, regardless of if they turn vertical halfway through
-        guard !vm.isIgnoringHorizontalDrag else {
-            return
-        }
+//        guard !vm.isIgnoringHorizontalDrag else {
+//            return
+//        }
         
         DispatchQueue.main.async {
             self.vm.isDragging = true
@@ -106,22 +106,8 @@ extension DrawerView {
         }
         vm.drawerProgress = progress
         
-        
-        let bottomPadding: CGFloat
-        ///Source: https://stackoverflow.com/a/68709575
-        let keyWindow = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.flatMap { $0.windows }.first { $0.isKeyWindow }
-        if let window = keyWindow {
-            bottomPadding = window.safeAreaInsets.bottom
-        } else {
-//            log.error("Couldn't get keyWindow")
-            bottomPadding = 0
-        }
-        
-//        let window = UIApplication.shared.windows[0]
-        let safeOffset = max(min(offset, 0), -(height-CollapsedHeight))
-        let handleHeight: CGFloat = 5 + 5 + 5
-        let startingHeight = CollapsedHeight - handleHeight - bottomPadding
-        vm.drawerContentHeight = -safeOffset + startingHeight
+        /// Set the legacy property used to inform the content of the drawer's absolute height
+        //setDrawerContentHeight(for: height)
     }
     
     private func onDragEnded(value: DragGesture.Value, height: CGFloat) {
@@ -206,4 +192,23 @@ extension DrawerView {
             lastOffset = offset
         }
     }
+}
+
+extension DrawerView {
+    /// Legacy function used to set the absolute drawer height
+//    func setDrawerContentHeight(for height: CGFloat) {
+//        let bottomPadding: CGFloat
+//        ///Source: https://stackoverflow.com/a/68709575
+//        let keyWindow = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.flatMap { $0.windows }.first { $0.isKeyWindow }
+//        if let window = keyWindow {
+//            bottomPadding = window.safeAreaInsets.bottom
+//        } else {
+//            bottomPadding = 0
+//        }
+//
+//        let safeOffset = max(min(offset, 0), -(height-CollapsedHeight))
+//        let handleHeight: CGFloat = 5 + 5 + 5
+//        let startingHeight = CollapsedHeight - handleHeight - bottomPadding
+//        vm.drawerContentHeight = -safeOffset + startingHeight
+//    }
 }
