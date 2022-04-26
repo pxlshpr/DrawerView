@@ -154,4 +154,8 @@ public extension DrawerViewModel {
         
         return lower + (drawerProgress * range)
     }
+    
+    func dv(_ values: (CGFloat, CGFloat, CGFloat)) -> CGFloat {
+        dynamicValue(collapsed: values.0, regular: values.1, expanded: values.2)
+    }
 }
