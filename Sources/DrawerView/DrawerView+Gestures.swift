@@ -13,8 +13,9 @@ extension DrawerView {
             onDragChanged(value: value, height: height)
         }).onEnded { value in
             
-            /// reset this for the next drag
+            /// reset these for the next drag
             vm.isIgnoringHorizontalDrag = false
+            vm.isEnabled = true
             
             /// Only complete drags that had begun (ie, vertical ones)
             guard vm.isDragging else { return }

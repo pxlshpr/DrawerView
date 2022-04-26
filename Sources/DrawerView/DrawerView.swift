@@ -26,7 +26,7 @@ public class DrawerViewModel: ObservableObject {
     @Published public var drawerContentHeight: Double = 0.0
     @Published public var isDragging: Bool = false
     @Published public var isEnabled: Bool = true
-    
+        
     public init() {
         
     }
