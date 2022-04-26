@@ -87,7 +87,7 @@ public struct DrawerView<Content: View>: View {
                     }
             )
         }
-        .ignoresSafeArea(.all, edges: .bottom)
+        .ignoresSafeArea(.all, edges: .all)
     }
     
     func scenePhaseChanged(_ phase: ScenePhase, height: CGFloat) {
