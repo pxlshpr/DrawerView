@@ -28,6 +28,7 @@ public struct DrawerView<Content: View>: View {
     @StateObject var vm: ViewModel = ViewModel()
 
     @Binding var drawerSection: DrawerViewDragSection
+    
     @Binding var drawerProgress: Double
     @Binding var isDragging: Bool
     @Binding var isEnabled: Bool
@@ -139,4 +140,22 @@ public struct DrawerView<Content: View>: View {
 //        log.verbose("progress: \(progress) for offset: \(offset)")
         return progress * 20
     }
+}
+
+extension DrawerView {
+    
+    private func dynamicValue(collapsed: CGFloat, regular: CGFloat, expanded: CGFloat) -> CGFloat {
+        let lower: CGFloat
+        let range: CGFloat
+        if drawerSection == .collapsedRegular {
+            lower = collapsed
+            range = regular-collapsed
+        } else {
+            lower = regular
+            range = expanded-regular
+        }
+        
+        return lower + (drawerProgress * range)
+    }
+    
 }
