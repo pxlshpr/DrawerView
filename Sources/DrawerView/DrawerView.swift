@@ -118,6 +118,7 @@ public struct DrawerView<Content: View>: View {
                 ZStack {
                     background
                         .shadow(radius: 1.0)
+                        .frame(maxHeight: .infinity, alignment: .top)
                     VStack(spacing: 0) {
                         if showHandle {
                             handle
@@ -127,7 +128,11 @@ public struct DrawerView<Content: View>: View {
 //                        StatsView()
                     }
                     .clipped()
+                    
                     .frame(maxHeight: .infinity, alignment: .top)
+                    
+                    /// Previous modifier for frame in case we encounter errors because of the new one
+//                    .frame(height: .infinity, alignment: .top)
                 }
                     .offset(y: primaryYOffset(for: height))
                     .offset(y: secondaryYOffset(for: height))
