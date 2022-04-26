@@ -23,12 +23,15 @@ public struct DrawerView<Content: View>: View {
 
     public class ViewModel: ObservableObject {
         @Published var isIgnoringHorizontalDrag: Bool = false
-        
         @Published var drawerSection: DrawerViewDragSection = .collapsedRegular
         @Published var drawerProgress: Double = 0.0
         @Published var drawerContentHeight: Double = 0.0
         @Published var isDragging: Bool = false
         @Published var isEnabled: Bool = true
+        
+        public init() {
+            
+        }
     }
     
     @ObservedObject var vm: ViewModel
