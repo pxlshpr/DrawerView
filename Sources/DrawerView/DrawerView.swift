@@ -21,18 +21,18 @@ public enum DrawerViewState {
 
 public struct DrawerView<Content: View>: View {
 
-    class ViewModel: ObservableObject {
+    public class ViewModel: ObservableObject {
         @Published var isIgnoringHorizontalDrag: Bool = false
+        
+        @Published var drawerSection: DrawerViewDragSection = .collapsedRegular
+        @Published var drawerProgress: Double = 0.0
+        @Published var drawerContentHeight: Double = 0.0
+        @Published var isDragging: Bool = false
+        @Published var isEnabled: Bool = true
     }
     
-    @StateObject var vm: ViewModel = ViewModel()
-
-    @Binding var drawerSection: DrawerViewDragSection
+    @ObservedObject var vm: ViewModel
     
-    @Binding var drawerProgress: Double
-    @Binding var isDragging: Bool
-    @Binding var isEnabled: Bool
-    @Binding var drawerContentHeight: Double
     var content: () -> Content
     
     @Environment(\.scenePhase) var scenePhase
@@ -48,21 +48,13 @@ public struct DrawerView<Content: View>: View {
     
     var onStateChange: ((DrawerViewState) -> ())?
     
-    public init(drawerSection: Binding<DrawerViewDragSection>,
-                drawerProgress: Binding<Double>,
-                drawerContentHeight: Binding<Double>,
-                isDragging: Binding<Bool>,
-                isEnabled: Binding<Bool> = .constant(true),
+    public init(viewModel: ViewModel,
                 isFullScreenWhenExpanded: Bool = false,
                 showHandle: Bool = true,
                 roundedCorners: Bool = true,
                 @ViewBuilder content: @escaping () -> Content,
                 onStateChange: ((DrawerViewState) -> ())? = nil) {
-        self._drawerSection = drawerSection
-        self._drawerProgress = drawerProgress
-        self._drawerContentHeight = drawerContentHeight
-        self._isDragging = isDragging
-        self._isEnabled = isEnabled
+        self.vm = viewModel
         
         self._showHandle = State(initialValue: showHandle)
         self._isFullScreenWhenExpanded = State(initialValue: isFullScreenWhenExpanded)
@@ -142,9 +134,9 @@ public struct DrawerView<Content: View>: View {
     }
 }
 
-extension DrawerView {
+public extension DrawerView.ViewModel {
     
-    private func dynamicValue(collapsed: CGFloat, regular: CGFloat, expanded: CGFloat) -> CGFloat {
+    func dynamicValue(collapsed: CGFloat, regular: CGFloat, expanded: CGFloat) -> CGFloat {
         let lower: CGFloat
         let range: CGFloat
         if drawerSection == .collapsedRegular {
@@ -157,5 +149,4 @@ extension DrawerView {
         
         return lower + (drawerProgress * range)
     }
-    
 }

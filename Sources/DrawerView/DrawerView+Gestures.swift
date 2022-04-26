@@ -5,7 +5,7 @@ extension DrawerView {
     
     internal func dragGesture(height: CGFloat) -> some Gesture {
         DragGesture().updating($gestureOffset, body: { value, out, _ in
-            guard isEnabled else {
+            guard vm.isEnabled else {
                 out = 0
                 return
             }
@@ -17,7 +17,7 @@ extension DrawerView {
             vm.isIgnoringHorizontalDrag = false
             
             /// Only complete drags that had begun (ie, vertical ones)
-            guard isDragging else { return }
+            guard vm.isDragging else { return }
             onDragEnded(value: value, height: height)
         }
     }
@@ -25,9 +25,9 @@ extension DrawerView {
     //MARK: - Drag Events
     private func onDragChanged(value: DragGesture.Value, height: CGFloat) {
         /// Ignore horizontal translations, checking for them at the beginning
-        if !isDragging {
+        if !vm.isDragging {
             guard abs(value.translation.width) < abs(value.translation.height) else {
-                isEnabled = false
+                vm.isEnabled = false
                 vm.isIgnoringHorizontalDrag = true
                 return
             }
@@ -39,11 +39,10 @@ extension DrawerView {
         }
         
         DispatchQueue.main.async {
-            self.isDragging = true
+            self.vm.isDragging = true
             self.offset = gestureOffset + lastOffset
             self.lastDragValue = value
             self.updateProgress(height: height)
-            print("Offset: \(offset), height: \(height)")
         }
     }
     
@@ -73,7 +72,7 @@ extension DrawerView {
             lastOffset = offset
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                isDragging = false
+                vm.isDragging = false
             }
         }
     }
@@ -96,15 +95,15 @@ extension DrawerView {
         if offset >= RegularOffset {
             progress = -offset / (CollapsedOffset - RegularOffset)
             progress = max(0, progress)
-            drawerSection = .collapsedRegular
+            vm.drawerSection = .collapsedRegular
         } else {
             let offsetDiff = offset - RegularOffset
             let maxHeight = height - CollapsedHeight
             progress = -offsetDiff / (RegularOffset - (-maxHeight))
             progress = min(1, progress)
-            drawerSection = .regularExpanded
+            vm.drawerSection = .regularExpanded
         }
-        drawerProgress = progress
+        vm.drawerProgress = progress
         
         
         let bottomPadding: CGFloat
@@ -121,12 +120,12 @@ extension DrawerView {
         let safeOffset = max(min(offset, 0), -(height-CollapsedHeight))
         let handleHeight: CGFloat = 5 + 5 + 5
         let startingHeight = CollapsedHeight - handleHeight - bottomPadding
-        drawerContentHeight = -safeOffset + startingHeight
+        vm.drawerContentHeight = -safeOffset + startingHeight
     }
     
     private func onDragEnded(value: DragGesture.Value, height: CGFloat) {
         guard let lastDragPosition = self.lastDragValue else {
-            isDragging = false
+            vm.isDragging = false
             return
         }
         
@@ -140,12 +139,12 @@ extension DrawerView {
             
             Haptics.feedback(style: .soft)
             if abs(speed) > 150 {
-                let stateChange: String
-                if isDownwards {
-                    stateChange = "Downwards"
-                } else {
-                    stateChange = "Upwards"
-                }
+//                let stateChange: String
+//                if isDownwards {
+//                    stateChange = "Downwards"
+//                } else {
+//                    stateChange = "Upwards"
+//                }
 //                log.verbose("State: \(stateChange) (\(Int(value.location.y))y @ \(Int(speed))px/s) — LastOffset: \(lastOffset)")
 
                 let gestureEndedBelowCollapsedHeight = value.location.y > maxHeight
@@ -201,7 +200,7 @@ extension DrawerView {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                isDragging = false
+                vm.isDragging = false
             }
             lastOffset = offset
         }
