@@ -19,18 +19,21 @@ public enum DrawerViewState {
     case expanded
 }
 
-public struct DrawerView<Content: View>: View {
-
-    public class ViewModel: ObservableObject {
-        @Published public var isIgnoringHorizontalDrag: Bool = false
-        @Published public var drawerSection: DrawerViewDragSection = .collapsedRegular
-        @Published public var drawerProgress: Double = 0.0
-        @Published public var drawerContentHeight: Double = 0.0
-        @Published public var isDragging: Bool = false
-        @Published public var isEnabled: Bool = true
-    }
+public class DrawerViewModel: ObservableObject {
+    @Published public var isIgnoringHorizontalDrag: Bool = false
+    @Published public var drawerSection: DrawerViewDragSection = .collapsedRegular
+    @Published public var drawerProgress: Double = 0.0
+    @Published public var drawerContentHeight: Double = 0.0
+    @Published public var isDragging: Bool = false
+    @Published public var isEnabled: Bool = true
     
-    @ObservedObject var vm: ViewModel
+    public init() {
+        
+    }
+}
+
+public struct DrawerView<Content: View>: View {
+    @ObservedObject var vm: DrawerViewModel
     
     var content: () -> Content
     
@@ -47,7 +50,7 @@ public struct DrawerView<Content: View>: View {
     
     var onStateChange: ((DrawerViewState) -> ())?
     
-    public init(viewModel: ViewModel,
+    public init(viewModel: DrawerViewModel,
                 isFullScreenWhenExpanded: Bool = false,
                 showHandle: Bool = true,
                 roundedCorners: Bool = true,
@@ -133,7 +136,7 @@ public struct DrawerView<Content: View>: View {
     }
 }
 
-public extension DrawerView.ViewModel {
+public extension DrawerViewModel {
     
     func dynamicValue(collapsed: CGFloat, regular: CGFloat, expanded: CGFloat) -> CGFloat {
         let lower: CGFloat
