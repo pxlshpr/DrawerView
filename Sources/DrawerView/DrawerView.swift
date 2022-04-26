@@ -22,8 +22,8 @@ public enum DrawerViewState {
 public class DrawerViewModel: ObservableObject {
     @Published public var isDragging: Bool = false
 
-    var drawerSection: DrawerViewDragSection = .collapsedRegular
-    var drawerProgress: Double = 0.0
+    @Published var drawerSection: DrawerViewDragSection = .collapsedRegular
+    @Published var drawerProgress: Double = 0.0
     var isEnabled: Bool = true
 //    var isIgnoringHorizontalDrag: Bool = false
 
