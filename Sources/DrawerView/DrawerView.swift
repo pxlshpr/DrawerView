@@ -68,7 +68,7 @@ public struct DrawerView<Content: View>: View {
                     background
                         .shadow(radius: 1.0)
                     VStack(spacing: 0) {
-                        handle
+//                        handle
                         VStack(spacing: 0, content: content)
 //                        Spacer()
 //                        StatsView()
