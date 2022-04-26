@@ -34,6 +34,20 @@ public class DrawerViewModel: ObservableObject {
         self.manualState = state
     }
     
+    public func toggleState() {
+        guard !isDragging else { return }
+        switch drawerSection {
+        case .collapsedRegular:
+            setState(.expanded)
+        case .regularExpanded:
+            if drawerProgress == 1.0 {
+                setState(.collapsed)
+            } else {
+                setState(.expanded)
+            }
+        }
+    }
+    
     public init() {
         
     }
