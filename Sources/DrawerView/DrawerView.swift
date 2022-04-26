@@ -29,6 +29,8 @@ public class DrawerViewModel: ObservableObject {
 //    var isIgnoringHorizontalDrag: Bool = false
 
     @Published var manualState: DrawerViewState = .collapsed
+
+    var height: CGFloat = 0
     
     public func setState(_ state: DrawerViewState) {
         self.manualState = state
@@ -113,13 +115,14 @@ public struct DrawerView<Content: View>: View {
                         scenePhaseChanged($0, height: height)
                     })
                     .onAppear {
+                        vm.height = height
                         updateProgress(height: height)
                     }
             )
         }
         .ignoresSafeArea(.all, edges: isFullScreenWhenExpanded ? .all : .bottom)
         .onChange(of: vm.manualState) { newValue in
-            changeState(to: newValue)
+            changeState(to: newValue, maxHeight: vm.height)
         }
     }
     
