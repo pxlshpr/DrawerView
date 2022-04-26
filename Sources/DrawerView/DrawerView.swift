@@ -118,8 +118,8 @@ public struct DrawerView<Content: View>: View {
                 ZStack {
                     background
                         .shadow(radius: 1.0)
-                        .frame(height: vm.contentHeight)
-//                        .frame(maxHeight: .infinity, alignment: .top)
+//                        .frame(height: vm.contentHeight)
+                        .frame(height: .infinity, alignment: .top)
                     VStack(spacing: 0) {
                         if showHandle {
                             handle
