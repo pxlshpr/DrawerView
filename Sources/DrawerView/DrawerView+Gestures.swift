@@ -123,6 +123,7 @@ extension DrawerView {
         let handleHeight: CGFloat = 5 + 5 + 5
         let startingHeight = CollapsedHeight - handleHeight - bottomPadding
         vm.contentHeight = -safeOffset + startingHeight
+        print("Content Height set to: \(vm.contentHeight)")
     }
     
     private func onDragEnded(value: DragGesture.Value, height: CGFloat) {
