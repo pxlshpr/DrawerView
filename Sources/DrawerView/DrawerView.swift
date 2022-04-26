@@ -28,8 +28,12 @@ public class DrawerViewModel: ObservableObject {
     var isEnabled: Bool = true
 //    var isIgnoringHorizontalDrag: Bool = false
 
-    /// Set the legacy property used to inform the content of the drawer's absolute height
-
+    @Published var manualState: DrawerViewState = .collapsed
+    
+    public func setState(_ state: DrawerViewState) {
+        self.manualState = state
+    }
+    
     public init() {
         
     }
@@ -100,6 +104,9 @@ public struct DrawerView<Content: View>: View {
             )
         }
         .ignoresSafeArea(.all, edges: isFullScreenWhenExpanded ? .all : .bottom)
+        .onChange(of: vm.manualState) { newValue in
+            changeState(to: newValue)
+        }
     }
     
     func scenePhaseChanged(_ phase: ScenePhase, height: CGFloat) {
