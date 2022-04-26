@@ -21,14 +21,14 @@ public enum DrawerViewState {
 
 public class DrawerViewModel: ObservableObject {
     @Published public var isDragging: Bool = false
-
+    @Published public var contentHeight: Double = 0.0
+    
     @Published var drawerSection: DrawerViewDragSection = .collapsedRegular
     @Published var drawerProgress: Double = 0.0
     var isEnabled: Bool = true
 //    var isIgnoringHorizontalDrag: Bool = false
 
     /// Set the legacy property used to inform the content of the drawer's absolute height
-    //@Published public var drawerContentHeight: Double = 0.0
 
     public init() {
         

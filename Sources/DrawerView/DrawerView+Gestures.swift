@@ -106,8 +106,23 @@ extension DrawerView {
         }
         vm.drawerProgress = progress
         
-        /// Set the legacy property used to inform the content of the drawer's absolute height
-        //setDrawerContentHeight(for: height)
+        setContentHeight(for: height)
+    }
+    
+    func setContentHeight(for height: CGFloat) {
+        let bottomPadding: CGFloat
+        ///Source: https://stackoverflow.com/a/68709575
+        let keyWindow = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.flatMap { $0.windows }.first { $0.isKeyWindow }
+        if let window = keyWindow {
+            bottomPadding = window.safeAreaInsets.bottom
+        } else {
+            bottomPadding = 0
+        }
+
+        let safeOffset = max(min(offset, 0), -(height-CollapsedHeight))
+        let handleHeight: CGFloat = 5 + 5 + 5
+        let startingHeight = CollapsedHeight - handleHeight - bottomPadding
+        vm.contentHeight = -safeOffset + startingHeight
     }
     
     private func onDragEnded(value: DragGesture.Value, height: CGFloat) {
@@ -192,23 +207,4 @@ extension DrawerView {
             lastOffset = offset
         }
     }
-}
-
-extension DrawerView {
-    /// Legacy function used to set the absolute drawer height
-//    func setDrawerContentHeight(for height: CGFloat) {
-//        let bottomPadding: CGFloat
-//        ///Source: https://stackoverflow.com/a/68709575
-//        let keyWindow = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.flatMap { $0.windows }.first { $0.isKeyWindow }
-//        if let window = keyWindow {
-//            bottomPadding = window.safeAreaInsets.bottom
-//        } else {
-//            bottomPadding = 0
-//        }
-//
-//        let safeOffset = max(min(offset, 0), -(height-CollapsedHeight))
-//        let handleHeight: CGFloat = 5 + 5 + 5
-//        let startingHeight = CollapsedHeight - handleHeight - bottomPadding
-//        vm.drawerContentHeight = -safeOffset + startingHeight
-//    }
 }
