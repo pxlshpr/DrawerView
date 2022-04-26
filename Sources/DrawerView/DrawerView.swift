@@ -155,7 +155,13 @@ public extension DrawerViewModel {
         return lower + (drawerProgress * range)
     }
     
+    /// Shorthand for getting a dynamic value where order of values are (collapsed, regular, expanded)
     func dv(_ values: (CGFloat, CGFloat, CGFloat)) -> CGFloat {
         dynamicValue(collapsed: values.0, regular: values.1, expanded: values.2)
+    }
+    
+    /// Shorthand for getting a dynamic value where collapsed and regular are the same
+    func dv(_ values: (CGFloat, CGFloat)) -> CGFloat {
+        dynamicValue(collapsed: values.0, regular: values.0, expanded: values.1)
     }
 }
