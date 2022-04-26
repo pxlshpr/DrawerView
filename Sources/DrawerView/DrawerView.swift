@@ -41,12 +41,19 @@ public struct DrawerView<Content: View>: View {
     @GestureState var gestureOffset: CGFloat = 0
     @State var lastDragValue: DragGesture.Value? = nil
     
+    @State var showHandle: Bool
+    @State var isFullScreenWhenExpanded: Bool
+    @State var roundedCorners: Bool
+    
     var onStateChange: ((DrawerViewState) -> ())?
     
     public init(drawerSection: Binding<DrawerViewDragSection>,
                 drawerProgress: Binding<Double>,
                 drawerContentHeight: Binding<Double>,
                 isDragging: Binding<Bool>,
+                isFullScreenWhenExpanded: Bool = false,
+                showHandle: Bool = true,
+                roundedCorners: Bool = true,
                 isEnabled: Binding<Bool> = .constant(true),
                 @ViewBuilder content: @escaping () -> Content,
                 onStateChange: ((DrawerViewState) -> ())? = nil) {
@@ -55,6 +62,11 @@ public struct DrawerView<Content: View>: View {
         self._drawerContentHeight = drawerContentHeight
         self._isDragging = isDragging
         self._isEnabled = isEnabled
+        
+        self._showHandle = State(initialValue: showHandle)
+        self._isFullScreenWhenExpanded = State(initialValue: isFullScreenWhenExpanded)
+        self._roundedCorners = State(initialValue: roundedCorners)
+        
         self.content = content
         self.onStateChange = onStateChange
     }
@@ -68,7 +80,9 @@ public struct DrawerView<Content: View>: View {
                     background
                         .shadow(radius: 1.0)
                     VStack(spacing: 0) {
-//                        handle
+                        if showHandle {
+                            handle
+                        }
                         VStack(spacing: 0, content: content)
 //                        Spacer()
 //                        StatsView()
@@ -87,7 +101,7 @@ public struct DrawerView<Content: View>: View {
                     }
             )
         }
-        .ignoresSafeArea(.all, edges: .all)
+        .ignoresSafeArea(.all, edges: isFullScreenWhenExpanded ? .all : .bottom)
     }
     
     func scenePhaseChanged(_ phase: ScenePhase, height: CGFloat) {
@@ -107,7 +121,9 @@ public struct DrawerView<Content: View>: View {
         Spacer()
             .frame(maxWidth: .infinity)
             .background(.regularMaterial)
-            .clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 18))
+            .if(roundedCorners, transform: { view in
+                view.clipShape(CustomCorner(corners: [.topLeft, .topRight], radius: 18))
+            })
     }
     
     var handle: some View {
