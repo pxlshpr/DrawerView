@@ -123,6 +123,7 @@ extension DrawerView {
         let handleHeight: CGFloat = 5 + 5 + 5
         let startingHeight = CollapsedHeight - handleHeight - bottomPadding
         vm.contentHeight = -safeOffset + startingHeight
+        print("Content Height set to: -safeOffset(\(-safeOffset)) + startingHeight(\(startingHeight)) = \(vm.contentHeight)")
         print("Content Height set to: \(vm.contentHeight)")
     }
     
