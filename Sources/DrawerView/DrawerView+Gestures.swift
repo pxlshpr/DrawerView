@@ -113,7 +113,7 @@ extension DrawerView {
         let bottomPadding: CGFloat
         ///Source: https://stackoverflow.com/a/68709575
         let keyWindow = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.flatMap { $0.windows }.first { $0.isKeyWindow }
-        if let window = keyWindow {
+        if let window = keyWindow, !isFullScreenWhenExpanded {
             bottomPadding = window.safeAreaInsets.bottom
         } else {
             bottomPadding = 0
