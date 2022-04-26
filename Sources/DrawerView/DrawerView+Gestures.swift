@@ -43,7 +43,7 @@ extension DrawerView {
             self.offset = gestureOffset + lastOffset
             self.lastDragValue = value
             self.updateProgress(height: height)
-//            log.verbose("Offset: \(offset)")
+            print("Offset: \(offset), height: \(height)")
         }
     }
     
