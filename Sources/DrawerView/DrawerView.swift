@@ -127,7 +127,7 @@ public struct DrawerView<Content: View>: View {
 //                        StatsView()
                     }
                     .clipped()
-                    .frame(height: .infinity, alignment: .top)
+                    .frame(maxHeight: .infinity, alignment: .top)
                 }
                     .offset(y: primaryYOffset(for: height))
                     .offset(y: secondaryYOffset(for: height))
